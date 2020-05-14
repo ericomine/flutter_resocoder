@@ -86,8 +86,20 @@ void main() {
         // matter is that it has been called.
       );
     });
-  });
 
-  
-  
+    test(
+      'should cache the data locally after call to remote data source',
+      ()async {
+        // arrange
+        when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+        .thenAnswer((_) async => tNumberTriviaModel);
+        // act
+        await repository.getConcreteNumberTrivia(tNumber);
+        // assert
+        verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+        verify(mockLocalDataSource.cacheNumberTrivia(tNumberTrivia));
+      },
+    );
+
+  });
 }
