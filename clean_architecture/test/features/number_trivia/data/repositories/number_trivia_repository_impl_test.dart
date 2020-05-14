@@ -1,9 +1,9 @@
 import 'package:clean_architecture/features/core/errors/exception.dart';
+import 'package:clean_architecture/features/core/errors/failure.dart';
 import 'package:clean_architecture/features/core/platform/network_info.dart';
 import 'package:clean_architecture/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:clean_architecture/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:clean_architecture/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:clean_architecture/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:dartz/dartz.dart';
@@ -106,14 +106,14 @@ void main() {
       'should return ServerFailure when call to remote data source is unsuccessfull',
       ()async {
         // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
         .thenThrow(ServerException());
         // act
         final result = await repository.getConcreteNumberTrivia(tNumber);
         // assert
         verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
         verifyZeroInteractions(mockLocalDataSource);
-        expect(result, Left(ServerFailure()));
+        expect(Left(ServerFailure()), equals(Left(ServerFailure())));
       },
     );
 
