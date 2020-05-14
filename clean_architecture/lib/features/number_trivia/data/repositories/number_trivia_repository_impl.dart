@@ -9,21 +9,23 @@ import 'package:meta/meta.dart';
 
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   
+  NumberTriviaRemoteDataSource remoteDataSource;
+  NumberTriviaLocalDataSource localDataSource;
+  NetworkInfo networkInfo;
   NumberTriviaRepositoryImpl({
-    @required NumberTriviaRemoteDataSource remoteDataSource,
-    @required NumberTriviaLocalDataSource localDataSource,
-    @required NetworkInfo networkInfo
-  })
+    @required this.remoteDataSource,
+    @required this.localDataSource,
+    @required this.networkInfo
+  });
 
   @override
   Future<Either<Failure, NumberTrivia>> getConcreteNumberTrivia(int number) {
-    // TODO: implement getConcreteNumberTrivia
+    networkInfo.isConnected;
     return null;
   }
 
   @override
   Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() {
-    // TODO: implement getRandomNumberTrivia
     return null;
   }
 }

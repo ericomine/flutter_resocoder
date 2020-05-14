@@ -1,6 +1,6 @@
-import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
+import '../models/number_trivia_model.dart';
 
-abstract class NumberTriviaLocalRepository {
+abstract class NumberTriviaLocalDataSource {
 
   Future<NumberTriviaModel> getLastNumberTrivia();
 
