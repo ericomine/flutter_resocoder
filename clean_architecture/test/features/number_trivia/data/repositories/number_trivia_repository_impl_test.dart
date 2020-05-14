@@ -5,6 +5,7 @@ import 'package:clean_architecture/features/number_trivia/data/models/number_tri
 import 'package:clean_architecture/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:clean_architecture/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -48,15 +49,45 @@ void main() {
       'should check if device is online',
       ()async {
         // arrange
-        when(mockNetworkInfo.isConnected).
-        thenAnswer((_) async => true);
+        when(mockNetworkInfo.isConnected)
+        .thenAnswer((_) async => true);
         // act
         repository.getConcreteNumberTrivia(tNumber);
         // assert
         verify(mockNetworkInfo.isConnected);
       },
-    );
-  
+    ); 
+
+    group('device online', () {
+    
+      setUp(() {
+        when(mockNetworkInfo.isConnected)
+        .thenAnswer((_) async => true);
+      });
+
+      test(
+        'should return remote data when device online',
+        ()async {
+          // arrange
+          when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+          .thenAnswer((_) async => tNumberTriviaModel);
+          // act
+          final result = await repository.getConcreteNumberTrivia(tNumber);
+          // assert
+          verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+          expect(result, equals(Right(tNumberTrivia)));
+        },
+        // This is not actually testing the output or the result of the
+        // repository.getConcreteNumberTrivia() method, instead,
+        // what it's really looking at is what data source has been accessed,
+        // ie it verifies whether getConcreteNumberTrivia() has been called
+        // on mockRemoteDataSource, not mockLocalDataSource. That is why,
+        // it doesn't matter what's returned by mockRemoteDataSource, what
+        // matter is that it has been called.
+      );
+    });
   });
+
+  
   
 }
