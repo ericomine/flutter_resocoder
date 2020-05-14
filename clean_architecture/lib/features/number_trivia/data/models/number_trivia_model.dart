@@ -14,4 +14,12 @@ class NumberTriviaModel extends NumberTrivia {
       text: jsonMap["text"]
       );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "text" : text,
+      "number" : number,
+    };
+  }
+
 }
