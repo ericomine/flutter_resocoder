@@ -10,7 +10,7 @@ class NumberTriviaModel extends NumberTrivia {
 
   factory NumberTriviaModel.fromJson(Map<String, dynamic> jsonMap) {
     return NumberTriviaModel(
-      number: jsonMap["number"],
+      number: (jsonMap["number"] as num).toInt(),
       text: jsonMap["text"]
       );
   }
