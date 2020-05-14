@@ -1,7 +1,9 @@
 import 'package:clean_architecture/features/core/platform/network_info.dart';
 import 'package:clean_architecture/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:clean_architecture/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
+import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:clean_architecture/features/number_trivia/data/repositories/numer_trivia_repository_impl.dart';
+import 'package:clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -32,15 +34,27 @@ void main() {
     );
   });
 
-  test(
-    'should ',
-    ()async {
-      // arrange
-      
-      // act
-      
-      // assert
-      
-    },
-  );
+  group('getConcreteNumberTrivia', () {
+    // Data for mocks and assertions:
+    final tNumber = 1;
+    final tNumberTriviaModel = NumberTriviaModel(
+      number: tNumber,
+      text: "Test text.",
+    );
+    final NumberTrivia tNumberTrivia = tNumberTriviaModel;
+    
+    test(
+      'should ',
+      ()async {
+        // arrange
+        
+        // act
+        
+        // assert
+        
+      },
+    );
+  
+  });
+  
 }
