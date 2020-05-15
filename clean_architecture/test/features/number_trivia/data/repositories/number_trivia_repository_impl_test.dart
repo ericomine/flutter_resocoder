@@ -86,36 +86,35 @@ void main() {
         // it doesn't matter what's returned by mockRemoteDataSource, what
         // matter is that it has been called.
       );
+
+      
+      test('should cache the data locally after call to remote data source',
+        ()async {
+          // arrange
+          when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+          .thenAnswer((_) async => tNumberTriviaModel);
+          // act
+          await repository.getConcreteNumberTrivia(tNumber);
+          // assert
+          verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+          verify(mockLocalDataSource.cacheNumberTrivia(tNumberTrivia));
+        },
+      );
+
+      test('should return ServerFailure when call to remote data source is unsuccessfull',
+        ()async {
+          // arrange
+          when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+          .thenThrow(ServerException());
+          // act
+          final result = await repository.getConcreteNumberTrivia(tNumber);
+          // assert
+          verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+          verifyZeroInteractions(mockLocalDataSource);
+          expect(result, equals(Left(ServerFailure())));
+        },
+      );
     });
-
-    test(
-      'should cache the data locally after call to remote data source',
-      ()async {
-        // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
-        .thenAnswer((_) async => tNumberTriviaModel);
-        // act
-        await repository.getConcreteNumberTrivia(tNumber);
-        // assert
-        verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
-        verify(mockLocalDataSource.cacheNumberTrivia(tNumberTrivia));
-      },
-    );
-
-    test(
-      'should return ServerFailure when call to remote data source is unsuccessfull',
-      ()async {
-        // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
-        .thenThrow(ServerException());
-        // act
-        final result = await repository.getConcreteNumberTrivia(tNumber);
-        // assert
-        verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
-        verifyZeroInteractions(mockLocalDataSource);
-        expect(result, equals(Left(ServerFailure())));
-      },
-    );
 
     group('device offline', () {
       
@@ -153,8 +152,6 @@ void main() {
           expect(result, equals(Left(CacheFailure())));
         },
       );
-
     });
-
   });
 }
