@@ -117,5 +117,29 @@ void main() {
       },
     );
 
+    group('device offline', () {
+      
+      setUp() {
+        when(mockNetworkInfo.isConnected)
+        .thenAnswer((_) async => false);
+      }
+
+      test(
+        'should return last cached data when cached data is present',
+        ()async {
+          // arrange
+          when(mockLocalDataSource.getLastNumberTrivia())
+          .thenAnswer((_) async => tNumberTrivia);
+          // act
+          final result = await repository.getConcreteNumberTrivia(tNumber);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.getLastNumberTrivia());
+          expect(result, equals(Right(tNumberTrivia)));
+        },
+      );
+
+    });
+
   });
 }
