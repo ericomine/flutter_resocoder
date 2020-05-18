@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:clean_architecture/features/core/errors/exception.dart';
 import 'package:clean_architecture/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,7 +50,25 @@ void main() {
         expect(() => call(), throwsA(isA<CacheException>()));
       },
     );
+  });
 
+  group('cacheNumberTrivia', () {
+    final tNumberTriviaModel =
+      NumberTriviaModel(number: 1, text: 'test trivia');
+
+    test('should call SharedPreferences to cache the data',
+      ()async {
+        // arrange
+        // act
+        dataSource.cacheNumberTrivia(tNumberTriviaModel);
+        // assert
+        final expectedJsonString = json.encode(tNumberTriviaModel.toJson());
+        verify(mockSharedPreferences.setString(
+          CACHED_NUMBER_TRIVIA,
+          expectedJsonString,
+        ));
+      },
+    );
   });
 
 }

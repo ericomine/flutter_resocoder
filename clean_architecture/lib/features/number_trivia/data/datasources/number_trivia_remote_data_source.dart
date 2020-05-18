@@ -1,4 +1,6 @@
 import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 
 // Notice that even though we'll have to use external URL for API,
 // which would be a string,the remote data source has no reference it.
@@ -7,4 +9,24 @@ import 'package:clean_architecture/features/number_trivia/data/models/number_tri
 abstract class NumberTriviaRemoteDataSource {
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number);
   Future<NumberTriviaModel> getRandomNumberTrivia();
+}
+
+class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
+  final http.Client httpClient;
+
+  NumberTriviaRemoteDataSourceImpl({
+    @required this.httpClient
+    });
+
+  @override
+  Future<NumberTriviaModel> getConcreteNumberTrivia(int number) {
+    // TODO: implement getConcreteNumberTrivia
+    return null;
+  }
+
+  @override
+  Future<NumberTriviaModel> getRandomNumberTrivia() {
+    // TODO: implement getRandomNumberTrivia
+    return null;
+  }
 }
