@@ -46,9 +46,9 @@ void main() {
         when(mockHttpClient.get(any, headers: anyNamed("headers")))
           .thenAnswer((_) async => http.Response(fixture("trivia.json"), 200));
         // act
-        final result = dataSource.getConcreteNumberTrivia(tNumber);
+        final result = await dataSource.getConcreteNumberTrivia(tNumber);
         // assert
-        expect(result, tNumberTriviaModel);
+        expect(result, equals(tNumberTriviaModel));
       },
     );
 
