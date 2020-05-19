@@ -42,11 +42,14 @@ void main() {
     final tNumberParsed = int.parse(tNumberString);
     final tNumberTrivia = NumberTrivia(number: 1, text: "Test text");
 
+    void setupMockInputConverterSuccess() =>
+      when(mockInputConverter.stringsToUInt(any))
+        .thenReturn(Right(tNumberParsed));
+
     test('should call the input converter and convert the string to uint',
       ()async {
         // arrange
-        when(mockInputConverter.stringsToUInt(any))
-          .thenReturn(Right(tNumberParsed));
+       setupMockInputConverterSuccess();
         // act
         bloc.dispatch(GetTriviaForConcreteNumber(numberString: tNumberString));
         await untilCalled(mockInputConverter.stringsToUInt(any));
@@ -74,8 +77,7 @@ void main() {
     test('should get data from the concrete use case',
       ()async {
         // arrange
-        when(mockInputConverter.stringsToUInt(tNumberString))
-          .thenReturn(Right(tNumberParsed));
+        setupMockInputConverterSuccess();
         when(mockGetConcreteNumberTrivia(params: anyNamed("params")))
           .thenAnswer((_) async => Right(tNumberTrivia));
         // act
@@ -85,6 +87,7 @@ void main() {
         verify(mockGetConcreteNumberTrivia(params: anyNamed("params")));
       },
     );
+    
 
   });
 
