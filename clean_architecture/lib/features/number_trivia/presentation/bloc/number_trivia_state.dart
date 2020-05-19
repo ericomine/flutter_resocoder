@@ -5,11 +5,6 @@ abstract class NumberTriviaState extends Equatable {
   NumberTriviaState([List props = const <dynamic>[]]) : super([props]);
 }
 
-class NumberTriviaInitial extends NumberTriviaState {
-  @override
-  List<Object> get props => [];
-}
-
 class Empty extends NumberTriviaState {}
 
 class Loading extends NumberTriviaState {}
