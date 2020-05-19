@@ -4,14 +4,14 @@ abstract class NumberTriviaEvent extends Equatable {
   NumberTriviaEvent([List props = const <dynamic>[]]) : super(props);
 }
 
-class GetConcreteNumberTrivia extends NumberTriviaEvent {
+class GetTriviaForConcreteNumber extends NumberTriviaEvent {
   // String comes from UI.
   // Convertion to int should not be handled in presentation layer.
   final String numberString;
 
-  GetConcreteNumberTrivia({
+  GetTriviaForConcreteNumber({
     @required this.numberString
     }) : super([numberString]);
 }
 
-class GetRandomNumberTrivia extends NumberTriviaEvent {}
+class GetTriviaForRandomNumber extends NumberTriviaEvent {}
