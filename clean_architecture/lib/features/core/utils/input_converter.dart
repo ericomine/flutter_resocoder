@@ -3,8 +3,13 @@ import 'package:dartz/dartz.dart';
 
 class InputConverter {
   Either<Failure, int> stringsToUInt(String str) {
-    // TODO: Implement
-    return null;
+    try {
+      final result = int.parse(str);
+      if (result < 0) throw FormatException();
+      return Right(result);
+    } on FormatException {
+      return Left(InvalidInputFailure());
+    }
   }
 }
 

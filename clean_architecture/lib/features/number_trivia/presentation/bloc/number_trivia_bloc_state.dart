@@ -1,7 +1,7 @@
 part of 'number_trivia_bloc_bloc.dart';
 
 abstract class NumberTriviaBlocState extends Equatable {
-  const NumberTriviaBlocState();
+  NumberTriviaBlocState();
 }
 
 class NumberTriviaBlocInitial extends NumberTriviaBlocState {
