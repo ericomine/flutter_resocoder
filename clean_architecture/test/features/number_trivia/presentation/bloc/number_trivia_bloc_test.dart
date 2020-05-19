@@ -76,13 +76,13 @@ void main() {
         // arrange
         when(mockInputConverter.stringsToUInt(tNumberString))
           .thenReturn(Right(tNumberParsed));
-        when(mockGetConcreteNumberTrivia(params: any))
+        when(mockGetConcreteNumberTrivia(params: anyNamed("params")))
           .thenAnswer((_) async => Right(tNumberTrivia));
         // act
         bloc.dispatch(GetTriviaForConcreteNumber(numberString: tNumberString));
-        await untilCalled(mockGetConcreteNumberTrivia(params: any));
+        await untilCalled(mockGetConcreteNumberTrivia(params: anyNamed("params")));
         // assert
-        verify(mockGetConcreteNumberTrivia(params: Params(number: any)));
+        verify(mockGetConcreteNumberTrivia(params: anyNamed("params")));
       },
     );
 
