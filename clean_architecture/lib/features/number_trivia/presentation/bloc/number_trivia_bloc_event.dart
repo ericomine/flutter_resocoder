@@ -5,6 +5,8 @@ abstract class NumberTriviaBlocEvent extends Equatable {
 }
 
 class GetTriviaForConcreteNumber extends NumberTriviaBlocEvent {
+  // String comes from UI.
+  // Convertion to int should not be handled in presentation layer.
   final String numberString;
 
   GetTriviaForConcreteNumber({
