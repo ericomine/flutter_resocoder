@@ -50,16 +50,24 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
           yield Loading();
           final failureOrTrivia = await _concrete(params: Params(number: integer));
           yield failureOrTrivia.fold(
-            (failure) => Error(
-              message: failure is ServerFailure ?
-                SERVER_FAILURE_MESSAGE :
-                CACHE_FAILURE_MESSAGE),
+            (failure) => Error(message: _mapFailureToMessage(failure)),
             (trivia) => Loaded(trivia: trivia)
           );
         }
       );
     }
-
-    
   }
+    
+  String _mapFailureToMessage(Failure failure) {
+    // Instead of a regular 'if (failure is ServerFailure)...'
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error';
+    }
+  }
+
 }
