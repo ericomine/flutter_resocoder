@@ -55,6 +55,22 @@ void main() {
       },
     );
 
+    test('should emit [Error] when input is invalid',
+      ()async {
+        // arrange
+        when(mockInputConverter.stringsToUInt(any))
+          .thenReturn(Left(InvalidInputFailure()));
+        // assert later
+        final expected = [
+          Empty(),
+          Error(message: INVALID_INPUT_FAILURE_MESSAGE),
+        ];
+        expectLater(bloc.state, emitsInOrder(expected));
+        // act
+        bloc.dispatch(GetTriviaForConcreteNumber(numberString: tNumberString));
+      },
+    );
+
   });
 
 }
