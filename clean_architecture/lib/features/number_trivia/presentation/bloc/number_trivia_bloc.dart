@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:clean_architecture/features/core/errors/failure.dart';
 import 'package:clean_architecture/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:clean_architecture/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:equatable/equatable.dart';
@@ -49,7 +50,10 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
           yield Loading();
           final failureOrTrivia = await _concrete(params: Params(number: integer));
           yield failureOrTrivia.fold(
-            (failure) => throw UnimplementedError(),
+            (failure) => Error(
+              message: failure is ServerFailure ?
+                SERVER_FAILURE_MESSAGE :
+                CACHE_FAILURE_MESSAGE),
             (trivia) => Loaded(trivia: trivia)
           );
         }
